@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/titleFragment">
+    app:startDestination="@id/myNavHostFragment">
 
     <fragment
-        android:id="@+id/titleFragment"
+        android:id="@+id/myNavHostFragment"
         android:name="com.example.android.navigation.TitleFragment"
         android:label="fragment_title"
         tools:layout="@layout/fragment_title" >
@@ -38,7 +38,7 @@
         <action
             android:id="@+id/action_gameWonFragment_to_gameFragment"
             app:destination="@id/gameFragment"
-            app:popUpTo="@id/titleFragment" />
+            app:popUpTo="@id/myNavHostFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameOverFragment"
@@ -48,6 +48,6 @@
         <action
             android:id="@+id/action_gameOverFragment_to_gameFragment"
             app:destination="@id/gameFragment"
-            app:popUpTo="@id/titleFragment" />
+            app:popUpTo="@id/myNavHostFragment" />
     </fragment>
 </navigation>
