@@ -18,14 +18,17 @@ package com.example.android.dessertpusher
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
+    private lateinit var dessertTimer: DessertTimer
 
     /** Dessert Data **/
 
@@ -64,14 +68,17 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // TODO (01) Add an info level log statement here
-
+        if(BuildConfig.DEBUG){
+            Timber.plant(Timber.DebugTree())
+        }
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.dessertButton.setOnClickListener {
             onDessertClicked()
         }
+
+        dessertTimer = DessertTimer()
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -148,5 +155,13 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         return super.onOptionsItemSelected(item)
     }
 
-    // TODO (02) Override the onStart lifecycle method and add an info level log statement
+    override fun onStart() {
+        super.onStart()
+        dessertTimer.startTimer()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dessertTimer.stopTimer()
+    }
 }
