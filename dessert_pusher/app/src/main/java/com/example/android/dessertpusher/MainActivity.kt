@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
         // Use Data Binding to get reference to the views
@@ -78,7 +78,9 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             onDessertClicked()
         }
 
-        dessertTimer = DessertTimer()
+        dessertTimer = DessertTimer(this.lifecycle)
+
+        lifecycle.addObserver(dessertTimer)
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -153,15 +155,5 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             R.id.shareMenuButton -> onShare()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dessertTimer.startTimer()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        dessertTimer.stopTimer()
     }
 }
