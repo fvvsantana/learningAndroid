@@ -50,6 +50,9 @@ class DessertTimer(lifecycle: Lifecycle) : LifecycleObserver {
     private var handler = Handler()
     private lateinit var runnable: Runnable
 
+    init {
+        lifecycle.addObserver(this)
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun startTimer() {
