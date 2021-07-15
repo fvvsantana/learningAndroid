@@ -22,6 +22,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import timber.log.Timber
+import java.io.Serializable
 
 /**
  * This is a class representing a timer that you can start or stop. The secondsCount outputs a count of
@@ -38,7 +39,7 @@ import timber.log.Timber
  * https://developer.android.com/guide/components/processes-and-threads
  *
  */
-class DessertTimer(lifecycle: Lifecycle) : LifecycleObserver {
+class DessertTimer(lifecycle: Lifecycle) : LifecycleObserver, Serializable {
 
     // The number of seconds counted since the timer started
     var secondsCount = 0

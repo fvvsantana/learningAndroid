@@ -28,7 +28,11 @@ import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
+
+const val KEY_REVENUE = "key_revenue"
+const val KEY_AMOUNT_SOLD = "key_amount_sold"
 
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
@@ -79,6 +83,11 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
 
         dessertTimer = DessertTimer(this.lifecycle)
+
+        if (savedInstanceState != null) {
+            revenue = savedInstanceState.getInt(KEY_REVENUE)
+            dessertsSold = savedInstanceState.getInt(KEY_AMOUNT_SOLD)
+        }
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -153,5 +162,11 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             R.id.shareMenuButton -> onShare()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_REVENUE, revenue)
+        outState.putInt(KEY_AMOUNT_SOLD, dessertsSold)
     }
 }
