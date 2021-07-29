@@ -18,7 +18,6 @@ package com.example.android.guesstheword.screens.game
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import timber.log.Timber
 
 class GameViewModel : ViewModel() {
     // The current word
