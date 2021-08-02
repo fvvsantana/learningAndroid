@@ -20,6 +20,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import timber.log.Timber
 
 class GameViewModel : ViewModel() {
 
@@ -57,15 +58,21 @@ class GameViewModel : ViewModel() {
         _eventGameFinished.value = false
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND){
             override fun onTick(millisUntilFinished: Long) {
-                TODO("Not yet implemented")
+                Timber.i("onTick called")
             }
 
             override fun onFinish() {
-                TODO("Not yet implemented")
+                _eventGameFinished.value = true
+                Timber.i("onFinish called")
             }
 
             // You'll need DateUtils.formatElapsedTime()
-        }
+        }.start()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        timer.cancel()
     }
 
     /**
