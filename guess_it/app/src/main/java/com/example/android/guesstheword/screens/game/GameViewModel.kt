@@ -16,14 +16,22 @@
 
 package com.example.android.guesstheword.screens.game
 
+import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
+
+    companion object {
+        private const val DONE = 0L;
+        private const val ONE_SECOND = 1000L;
+        private const val COUNTDOWN_TIME = 10000L;
+    }
+
     // The current word
     private val _word = MutableLiveData<String>()
-    val word : LiveData<String>
+    val word: LiveData<String>
         get() = _word
 
 
@@ -33,11 +41,13 @@ class GameViewModel : ViewModel() {
         get() = _score
 
     private val _eventGameFinished = MutableLiveData<Boolean>()
-    val eventGameFinished : LiveData<Boolean>
+    val eventGameFinished: LiveData<Boolean>
         get() = _eventGameFinished
 
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
+
+    private val timer: CountDownTimer
 
     init {
         resetList()
@@ -45,6 +55,17 @@ class GameViewModel : ViewModel() {
         _score.value = 0
         _word.value = ""
         _eventGameFinished.value = false
+        timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND){
+            override fun onTick(millisUntilFinished: Long) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onFinish() {
+                TODO("Not yet implemented")
+            }
+
+            // You'll need DateUtils.formatElapsedTime()
+        }
     }
 
     /**
@@ -83,10 +104,9 @@ class GameViewModel : ViewModel() {
     private fun nextWord() {
         //Select and remove a word from the list
         if (wordList.isEmpty()) {
-            _eventGameFinished.value = true
-        } else {
-            _word.value = wordList.removeAt(0)
+            resetList()
         }
+        _word.value = wordList.removeAt(0)
     }
 
     /** Methods for buttons presses **/
@@ -100,7 +120,7 @@ class GameViewModel : ViewModel() {
         nextWord()
     }
 
-    fun onGameFinishComplete(){
+    fun onGameFinishComplete() {
         _eventGameFinished.value = false
     }
 
