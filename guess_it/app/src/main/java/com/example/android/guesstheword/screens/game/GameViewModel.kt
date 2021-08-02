@@ -17,6 +17,7 @@
 package com.example.android.guesstheword.screens.game
 
 import android.os.CountDownTimer
+import android.text.format.DateUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -50,14 +51,19 @@ class GameViewModel : ViewModel() {
 
     private val timer: CountDownTimer
 
+    private val _timeLeftInSeconds = MutableLiveData<Int>()
+    val timeLeft: LiveData<Int>
+        get() = _timeLeftInSeconds
+
     init {
         resetList()
         nextWord()
         _score.value = 0
         _word.value = ""
         _eventGameFinished.value = false
-        timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND){
+        timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
             override fun onTick(millisUntilFinished: Long) {
+                _timeLeftInSeconds.value = (millisUntilFinished/ ONE_SECOND).toInt()
                 Timber.i("onTick called")
             }
 
@@ -68,6 +74,7 @@ class GameViewModel : ViewModel() {
 
             // You'll need DateUtils.formatElapsedTime()
         }.start()
+        _timeLeftInSeconds.value = (COUNTDOWN_TIME / ONE_SECOND).toInt()
     }
 
     override fun onCleared() {
