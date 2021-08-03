@@ -68,6 +68,7 @@ class GameViewModel : ViewModel() {
             }
 
             override fun onFinish() {
+                _timeLeftInSeconds.value = DONE.toInt()
                 _eventGameFinished.value = true
                 Timber.i("onFinish called")
             }
