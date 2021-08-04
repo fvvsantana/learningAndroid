@@ -57,8 +57,6 @@ class GameViewModel : ViewModel() {
         get() = _timeLeftInSeconds
 
     init {
-        resetList()
-        nextWord()
         _score.value = 0
         _word.value = ""
         _eventGameFinished.value = false
@@ -77,6 +75,8 @@ class GameViewModel : ViewModel() {
             // You'll need DateUtils.formatElapsedTime()
         }.start()
         _timeLeftInSeconds.value = (COUNTDOWN_TIME / ONE_SECOND).toInt()
+        resetList()
+        nextWord()
     }
 
     override fun onCleared() {
