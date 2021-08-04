@@ -20,6 +20,7 @@ import android.os.CountDownTimer
 import android.text.format.DateUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import timber.log.Timber
 
@@ -56,13 +57,17 @@ class GameViewModel : ViewModel() {
     val timeLeft: LiveData<Int>
         get() = _timeLeftInSeconds
 
+    val timeLeftString = Transformations.map(_timeLeftInSeconds) { timeLeftInSeconds ->
+        DateUtils.formatElapsedTime(timeLeftInSeconds.toLong())
+    }
+
     init {
         _score.value = 0
         _word.value = ""
         _eventGameFinished.value = false
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
             override fun onTick(millisUntilFinished: Long) {
-                _timeLeftInSeconds.value = (millisUntilFinished/ ONE_SECOND).toInt()
+                _timeLeftInSeconds.value = (millisUntilFinished / ONE_SECOND).toInt()
                 Timber.i("onTick called")
             }
 
