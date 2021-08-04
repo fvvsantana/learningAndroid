@@ -58,8 +58,7 @@ class ScoreFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(ScoreViewModel::class.java)
         binding.scoreViewModel = viewModel
-
-        binding.scoreText.text = viewModel.score.value.toString()
+        binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.eventPlayAgain.observe(viewLifecycleOwner, Observer { playAgain ->
             if (playAgain) {
